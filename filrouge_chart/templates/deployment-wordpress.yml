@@ -46,8 +46,17 @@ spec:
               define('WP_SITEURL','http://{{.Values.wordpress.host}}');
         volumeMounts:
           - name: wordpress-html
-            mountPath: /var/www/html/wp-content/uploads
+            mountPath: /var/www/html/
       volumes:
         - name: wordpress-html
           persistentVolumeClaim:
             claimName: {{.Release.Namespace}}-efs-wp-claim
+      initContainers:
+      - name: init-sym-link
+        image: ubuntu:focal
+        command: ["mkdir", "-p","/var/www/html_filrouge","/filrouge"]
+        command: ["ln", "-s", "/var/www/html_filrouge", "/filrouge"]
+        command: ["chown", "-R", "www-data:www-data", "/filrouge"]
+        volumeMounts:
+        - name: wordpress-html
+          mountPath: /filrouge

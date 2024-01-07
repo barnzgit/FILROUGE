@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: filrouge-ssl-wordpress-ingress
+  annotations:
+    alb.ingress.kubernetes.io/group.name: filrouge-ssl-wordpress-ingress
+    alb.ingress.kubernetes.io/load-balancer-name: filrouge-ssl-wordpress-ingress
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-3:131674823919:certificate/40fe0d94-07cb-4adf-be0c-1c3648d43466
+spec:
+  ingressClassName : alb
+  rules:
+    - host: filrouge-prod.barnz.cloudns.ph
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wordpress-http
+                port:
+                  number: 80

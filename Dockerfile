@@ -1,13 +1,13 @@
 FROM wordpress:6.4-apache
 
 RUN apt-get update -y && apt-get install zip -y
+ 
+RUN mkdir -p /var/www/html_filrouge
 
-ADD ./www-html /var/www/html
+ADD ./www-html/ /var/www/html_filrouge/
 
-RUN /bin/sh -c set -eux; \
-    cd /var/www/html; \
-    unzip wordpress.zip; \
-    cp -r wordpress/*  /var/www/html/;  \
-    rm -r wordpress/ ; rm wordpress.zip ;
+RUN ln -s /var/www/html_filrouge /var/www/html/filrouge 
+
+RUN chown -R www-data:www-data /var/www/html_filrouge /var/www/html/filrouge
 
 RUN chown -R www-data:www-data /var/www/html
