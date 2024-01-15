@@ -9,11 +9,11 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-3:131674823919:certificate/40fe0d94-07cb-4adf-be0c-1c3648d43466
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-3:865528122231:certificate/7df25315-1994-45a7-8995-db5d359a8486
 spec:
   ingressClassName : alb
   rules:
-    - host: filrouge-prod.barnz.cloudns.ph
+    - host: {{.Values.wordpress.host}}
       http:
         paths:
           - path: /
